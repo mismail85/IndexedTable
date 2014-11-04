@@ -60,8 +60,8 @@ int main(int argc, char *argv[])
             table.insert(order);
 
         }
-        table.remove("002");
-        table.findByCompanyName("Cheapskates");
+
+        table.printProductsCount();
 
         myfile.close();
     }

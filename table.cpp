@@ -17,8 +17,8 @@ Table::~Table(){
 void Table::insert(Order *order)
 {
     m_set.insert(order);
-    m_companyIndex.insert( pair<string, Order*>(order->companyName, order) );
-    m_addressIndex.insert( pair<string, Order*>(order->address, order) );
+    m_companyIndex.insert( pair<string, Order*>( order->companyName, order ) );
+    m_addressIndex.insert( pair<string, Order*>( order->address, order ) );
 }
 
 void Table::findByCompanyName(const string &key){
@@ -40,8 +40,10 @@ bool Table::remove(const string orderId)
     delete order;
     if(it != m_set.end()){
         cout << "item no = "<< (*it)->orderId<< "has been deleted " << endl;
+
         removeFromCompanyIndex( *(*it) );
         removeFromAddressIndex( *(*it) );
+
         m_set.erase(it);
         delete (*it);
         return true;
@@ -79,6 +81,27 @@ void Table::printRange(pair<multimap<string, Order*>::iterator, multimap<string,
         cout << it->second->address << "\t | ";
         cout << it->second->orderedItem;
         cout << '\n';
+    }
+}
+
+void Table::printProductsCount()
+{
+    map<string, int> products;
+    set<Order*>::iterator it;
+
+    for (it=m_set.begin(); it!=m_set.end(); ++it){
+        products[(*it)->orderedItem] += 1;
+    }
+
+    map<string, int>::iterator mapIt;
+    set< pair<string, int>, pair_compare > orderedSet;
+    for(mapIt = products.begin(); mapIt != products.end(); ++mapIt){
+        orderedSet.insert(pair<string, int>(mapIt->first, mapIt->second));
+    }
+
+    set< pair<string, int> >::iterator setIt;
+    for(setIt = orderedSet.begin(); setIt != orderedSet.end(); ++setIt){
+        cout << "count of "<< setIt->first << "=" << setIt->second<< endl;
     }
 }
 

@@ -12,6 +12,13 @@ struct order_compare {
     }
 };
 
+struct pair_compare {
+    bool operator() (const pair<string, int> lo, const pair<string, int> ro) const{
+
+        return lo.second >= ro.second;
+    }
+};
+
 class Table
 {
 public:
@@ -26,6 +33,7 @@ public:
 
     void printAll();
     void printRange(pair<multimap<string, Order*>::iterator, multimap<string, Order*>::iterator> &);
+    void printProductsCount();
 
 private:
     void removeFromCompanyIndex(const Order & order);

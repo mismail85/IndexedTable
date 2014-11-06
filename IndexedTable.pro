@@ -16,8 +16,10 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp \
-    table.cpp
+    table.cpp \
+    string.cpp
 
 HEADERS += \
     table.h \
-    Order.h
+    Order.h \
+    string.h

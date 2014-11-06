@@ -14,6 +14,12 @@ Table::~Table(){
     }
 }
 
+/**
+ * @brief Table::insert
+ * @param order
+ * This function inserts an order to the data structure, also it creates two indeces
+ * one for the company name and the other for the address
+ */
 void Table::insert(Order *order)
 {
     m_set.insert(order);
@@ -21,17 +27,37 @@ void Table::insert(Order *order)
     m_addressIndex.insert( pair<string, Order*>( order->address, order ) );
 }
 
+/**
+ * @brief Table::findByCompanyName
+ * @param key
+ * This function prints all the orders related to a company named by the key parameter
+ * Complexity is O(Log(n))
+ */
 void Table::findByCompanyName(const string &key){
     pair<multimap<string, Order*>::iterator, multimap<string, Order*>::iterator>range  = m_companyIndex.equal_range(key);
     printRange( range );
 }
 
+/**
+ * @brief Table::findByAddress
+ * @param key
+ * This function prints all the orders related a specific address key
+ * Compexity is O(Log(n))
+ */
 void Table::findByAddress(const string &key)
 {
     pair<multimap<string, Order*>::iterator, multimap<string, Order*>::iterator> range  = m_addressIndex.equal_range(key);
     printRange( range );
 }
 
+/**
+ * @brief Table::remove
+ * @param orderId
+ * @return
+ * This function removes an order by it's order id from the data structure and the
+ * two indeces (company, address)
+ * Complexity is O(Log(n))
+ */
 bool Table::remove(const string orderId)
 {
     Order* order = new Order;
@@ -39,7 +65,7 @@ bool Table::remove(const string orderId)
     set<Order*>::iterator it = m_set.find(order);
     delete order;
     if(it != m_set.end()){
-        cout << "item no = "<< (*it)->orderId<< "has been deleted " << endl;
+        cout << "item no = "<< (*it)->orderId<< " has been deleted " << endl;
 
         removeFromCompanyIndex( *(*it) );
         removeFromAddressIndex( *(*it) );
@@ -83,7 +109,11 @@ void Table::printRange(pair<multimap<string, Order*>::iterator, multimap<string,
         cout << '\n';
     }
 }
-
+/**
+ * @brief Table::printProductsCount
+ * This function prints the products and it's counts ordered descending
+ * Complexity is O(n)
+ */
 void Table::printProductsCount()
 {
     map<string, int> products;
